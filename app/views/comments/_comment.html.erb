@@ -1,0 +1,61 @@
+<div id="<%= dom_id comment %>">
+  <div class="row mt-1 mb-2">
+    <div class="col-1">
+      <div class="container">
+        <img src="https://images.pexels.com/photos/837358/pexels-photo-837358.jpeg?auto=compress&cs=tinysrgb&w=600" class="rounded" width="50px">
+      </div>
+    </div>
+    <div class="col-10">
+      <h6>
+        <%= User.find_by(id: comment.user_id).name %>
+      </h6>
+      <p>
+        <%= comment.comment %>
+      </p>
+      <% if UserCommentRating.where(user_id: current_user.id, comment_id: comment.id).exists? == true %>
+        <p>Your Rating: <%= UserCommentRating.find_by(user_id: current_user.id, comment_id: comment.id).rate %></p>
+      <% else %>
+        <%= form_for UserCommentRating.new, url: topic_post_user_comment_rating_index_path(@topic, @post, @comment), method: :post do |form| %>
+          <%= form.label "Comment Rating: ", class: "form-label" %>
+          <%#= form.text_field :rate, class: "form-control" %>
+
+          <div class="form-check form-check-inline">
+            <%= form.radio_button :rate, 1, class: "form-check-input", :required => true %>
+            <label class="form-check-label" for="inlineRadio1">1</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <%= form.radio_button :rate, 2, class: "form-check-input", :required => true %>
+            <label class="form-check-label" for="inlineRadio1">2</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <%= form.radio_button :rate, 3, class: "form-check-input", :required => true %>
+            <label class="form-check-label" for="inlineRadio1">3</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <%= form.radio_button :rate, 4, class: "form-check-input", :required => true %>
+            <label class="form-check-label" for="inlineRadio1">4</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <%= form.radio_button :rate, 5, class: "form-check-input", :required => true %>
+            <label class="form-check-label" for="inlineRadio1">5</label>
+          </div>
+          <%= form.hidden_field "comment_id", value: comment.id %>
+          <% if current_user.present? %>
+            <%= form.button "Submit", class: "btn btn-success mt-2" %>
+          <% end %>
+        <% end %>
+      <% end %>
+      <% if params[:topic_id] %>
+        <%= link_to "Show All Comment Ratings", topic_post_user_comment_rating_path(@topic, @post, comment), class: "text-decoration-none" %>
+      <% else %>
+        <%= link_to "Show All Comment Ratings", post_user_comment_rating_path(@post, comment), class: "text-decoration-none" %>
+      <% end %>
+    </div>
+    <div class="col-1">
+      <% if can? :delete, comment %>
+        <%= button_to "Delete", topic_post_comment_path(@topic, @post, comment), method: :delete, class: "btn btn-danger mt-2" %>
+      <% end %>
+    </div>
+    <hr class="mt-2">
+  </div>
+</div>

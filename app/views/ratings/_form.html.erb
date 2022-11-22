@@ -1,0 +1,30 @@
+<%= form_for Rating.new, url: topic_post_ratings_path(@topic, @post), method: :post do |form| %>
+  <%= form.label "Rating: ", class: "form-label" %>
+  <%#= form.text_field :rate, class: "form-control" %>
+
+  <div class="form-check form-check-inline">
+    <%= form.radio_button :rate, 1, class: "form-check-input", :required => true %>
+    <label class="form-check-label" for="inlineRadio1">1</label>
+  </div>
+  <div class="form-check form-check-inline">
+    <%= form.radio_button :rate, 2, class: "form-check-input", :required => true %>
+    <label class="form-check-label" for="inlineRadio1">2</label>
+  </div>
+  <div class="form-check form-check-inline">
+    <%= form.radio_button :rate, 3, class: "form-check-input", :required => true %>
+    <label class="form-check-label" for="inlineRadio1">3</label>
+  </div>
+  <div class="form-check form-check-inline">
+    <%= form.radio_button :rate, 4, class: "form-check-input", :required => true %>
+    <label class="form-check-label" for="inlineRadio1">4</label>
+  </div>
+  <div class="form-check form-check-inline">
+    <%= form.radio_button :rate, 5, class: "form-check-input", :required => true %>
+    <label class="form-check-label" for="inlineRadio1">5</label>
+  </div>
+  <% if current_user.present? %>
+    <%= form.button "Submit", class: "btn btn-success mt-2" %>
+  <% else %>
+    <%= form.button "Sign in to Submit", class: "btn btn-success mt-2", :disabled => true %>
+  <% end %>
+<% end %>

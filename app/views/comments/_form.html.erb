@@ -1,0 +1,5 @@
+<%= form_for Comment.new, url: topic_post_comments_path(@topic, post), method: :post do |form| %>
+  <%= form.label "Comment", class: "form-label" %>
+  <%= form.text_area :comment, class: "form-control", placeholder: "Type your comments here", :rows => 10, :required => true %>
+  <%= form.button "Submit", class: "btn btn-success mt-2" %>
+<% end %>

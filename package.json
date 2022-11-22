@@ -1,0 +1,8 @@
+{
+  "name": "RubyBlog",
+  "version": "1.0.0",
+  "dependencies": {
+    "@hotwired/stimulus": "^3.1.1",
+    "bootstrap": "^5.2.2"
+  }
+}

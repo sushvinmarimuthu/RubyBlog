@@ -1,0 +1,55 @@
+<%= form_with(model:
+                if params[:topic_id]
+                  [@topic, post]
+                else
+                  post
+                end, id: "new_post_form"
+    )  do |form| %>
+  <% if post.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(post.errors.count, "error") %> prohibited this post from being saved:</h2>
+      <ul>
+        <% post.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="modal-body">
+    <div class="mb-3">
+      <%= form.label :title, style: "display: block", class: "form-label" %>
+      <%= form.text_field :title, class: "form-control", :required => true %>
+    </div>
+
+    <div class="input-group mb-3">
+      <%= form.label :image, style: "display: block", class: "input-group-text" %>
+      <%= form.file_field :image, class: "form-control", :required => true %>
+    </div>
+
+    <div class="mb-3">
+      <%= form.label :description, style: "display: block", class: "form-label" %>
+      <%= form.text_area :description, class: "form-control", :rows=>10, :required => true %>
+    </div>
+
+    <% if params[:topic_id].nil? %>
+      <div class="mb-3">
+        <%= form.label :topic_id, style: "display: block", class: "form-label" %>
+
+        <%= form.select :topic_id, Topic.all.collect {|t| [t.title, t.id] }, {},class: "form-select"  %>
+      </div>
+    <% end %>
+
+    <div class="mb-3">
+      <%= form.label :tags, style: "display: block", class: "form-label" %>
+      <p>Type a tags separated by(",")</p>
+      <%= form.text_field :all_tags, class: "form-control" %>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <div class="mb-3">
+      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      <%= form.submit :Submit, class: "btn btn-success ms-2" %>
+    </div>
+  </div>
+<% end %>

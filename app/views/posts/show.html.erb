@@ -1,0 +1,35 @@
+<section style="background-color: #f2f3e8;" class="pb-2 pt-2">
+  <div class="container">
+    <%= render @post %>
+    <% if params[:topic_id] %>
+      <div class="row mb-2 align-items-center">
+        <div class="col">
+          <% if can? :update, @post %>
+            <%= link_to "Edit this post", edit_topic_post_path([@topic, @post]), class: "btn btn-success" %>
+          <% end %>
+          <%= link_to "Back to posts", [@topic, :posts], class: "btn btn-success" %>
+        </div>
+        <div class="col">
+          <% if can? :destroy, @post %>
+            <%= button_to "Destroy this post", [@topic, @post], method: :delete, class: "btn btn-danger mt-2 float-end" %>
+          <% end %>
+        </div>
+      </div>
+    <% else %>
+      <div class="row mb-2 align-items-center">
+        <div class="col">
+          <% if can? :update, @post %>
+            <%= link_to "Edit this post", edit_post_path(@post), class: "btn btn-success" %>
+          <% end %>
+          <%= link_to "Back to posts", posts_path, data: { turbo: false }, class: "btn btn-success" %>
+        </div>
+        <div class="col">
+          <% if can? :destroy, @post %>
+            <%= button_to "Destroy this post", @post, method: :delete, class: "btn btn-danger mt-2 float-end" %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</section>
+

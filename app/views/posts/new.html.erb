@@ -1,0 +1,10 @@
+<div class="container">
+  <h1>New post</h1>
+  <%= render "form", post: @post %>
+
+  <% if params[:topic_id] %>
+    <%= link_to "Back to posts", topic_posts_path(@topic), class: "btn btn-success mt-2" %>
+  <% else %>
+    <%= link_to "Back to posts", posts_path, class: "btn btn-success mt-2" %>
+  <% end %>
+</div>

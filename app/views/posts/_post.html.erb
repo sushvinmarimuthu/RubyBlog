@@ -1,0 +1,128 @@
+<div id="<%= dom_id @post %>" class="post_read <%= @post.id %>">
+  <div class="row">
+    <div class="col d-flex justify-content-center">
+      <% if params[:topic_id] %>
+        <div class="card border border-0" style="background-color: #f2f3e8;">
+          <div class="card-body">
+            <h5 class="card-title"><h1 class="text-center"><%= @post.title %> (<%= @post.topic.title %>)
+              <% if user_signed_in? and @post.users_posts.include?(current_user) %>
+                <i class="fa-solid fa-envelope-circle-check"></i>
+              <% else %>
+                <i class="fa-solid fa-envelope"></i>
+              <% end %>
+            </h1></h5>
+            <h6 class="card-subtitle mb-2 text-muted">By <%= User.find_by(id: @post.user_id).name %></h6>
+            <p class="card-text">Published at <%= @post.created_at.strftime("%B %d, %Y") %></p>
+          </div>
+        </div>
+      <% else %>
+        <div class="card border border-0" style="background-color: #f2f3e8;">
+          <div class="card-body">
+            <h5 class="card-title"><h1 class="text-center"><%= @post.title %> (<%= @post.topic.title %>)</h1></h5>
+            <h6 class="card-subtitle mb-2 text-muted">By <%= User.find_by(id: @post.user_id).name %></h6>
+            <p class="card-text">Published at <%= @post.created_at.strftime("%B %d, %Y") %></p>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="row" id="read_status">
+    <div class="col">
+      <% if user_signed_in? and @post.users_posts.include?(current_user) %>
+        <p class="float-end text-success">Read <i class="fa-solid fa-check"></i></p>
+      <% else %>
+        <p class="float-end text-danger">Unread <i class="fa-solid fa-xmark"></i></p>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="row justify-content-center mb-2">
+    <div class="col-12 align-items-center">
+      <%= image_tag(@post.image, class: "img-fluid mx-auto d-block") %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <p class="pb-1"><%= @post.description %></p>
+    </div>
+  </div>
+  <hr>
+  <div class="row">
+    <div class="col">
+      <h4>Ratings</h4>
+      <% if Rating.where(user_id: current_user.id, post_id: @post.id).exists? == true %>
+        <p class="text-muted">Your Rating: <%= Rating.find_by(user_id: current_user.id).rate %></p>
+      <% else %>
+        <%= render partial: 'ratings/form' %>
+      <% end %>
+      <div class="row">
+        <div class="col">
+          <p><%= Rating.where(post_id: @post.id).count(:rate).to_i %> global ratings</p>
+        </div>
+      </div>
+      <div class="row align-items-center">
+        <div class="col-2">
+          <label>5 Star</label>
+        </div>
+        <div class="col-10">
+          <div class="progress">
+            <div class="progress-bar bg-success" role="progressbar" aria-label="Success example" style="width: <%= Rating.where(post_id: @post.id, rate: 5).average(:rate).to_i %>%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+          </div>
+        </div>
+      </div>
+      <div class="row align-items-center">
+        <div class="col-2">
+          <label>4 Star</label>
+        </div>
+        <div class="col-10">
+          <div class="progress">
+            <div class="progress-bar bg-success" role="progressbar" aria-label="Success example" style="width: <%= Rating.where(post_id: @post.id, rate: 4).average(:rate).to_i %>%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+          </div>
+        </div>
+      </div>
+      <div class="row align-items-center">
+        <div class="col-2">
+          <label>3 Star</label>
+        </div>
+        <div class="col-10">
+          <div class="progress">
+            <div class="progress-bar bg-success" role="progressbar" aria-label="Success example" style="width: <%= Rating.where(post_id: @post.id, rate: 3).average(:rate).to_i %>%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+          </div>
+        </div>
+      </div>
+      <div class="row align-items-center">
+        <div class="col-2">
+          <label>2 Star</label>
+        </div>
+        <div class="col-10">
+          <div class="progress">
+            <div class="progress-bar bg-success" role="progressbar" aria-label="Success example" style="width: <%= Rating.where(post_id: @post.id, rate: 2).average(:rate).to_i %>%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+          </div>
+        </div>
+      </div>
+      <div class="row align-items-center">
+        <div class="col-2">
+          <label>1 Star</label>
+        </div>
+        <div class="col-10">
+          <div class="progress">
+            <div class="progress-bar bg-success" role="progressbar" aria-label="Success example" style="width: <%= Rating.where(post_id: @post.id, rate: 1).average(:rate).to_i %>%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <hr>
+  <div class="row">
+    <div class="col">
+      <%= render partial: 'comments/form', locals: { post: @post } %>
+      <h4 class="mt-2"><%= @post.comments.length %> Comments: </h4>
+      <% if @post.comments.length > 0 %>
+        <%= render @post.comments.order(id: :desc) %>
+      <% else %>
+      <% end %>
+    </div>
+  </div>
+  <hr>
+</div>

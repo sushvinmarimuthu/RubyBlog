@@ -1,0 +1,51 @@
+<section>
+  <div class="container">
+    <div class="row">
+      <div class="col mt-3">
+        <% if params[:topic_id] %>
+          <%= link_to "Back", topic_post_path(params[:topic_id], params[:post_id]), class: "float-start btn btn-success" %>
+        <% else %>
+          <%= link_to "Back", post_path(params[:post_id]), class: "float-start btn btn-success" %>
+        <% end %>
+        <h3 class="text-center">Comment Details</h3>
+        <h4>Comment:</h4>
+        <p><%= Comment.find_by(id: params[:id]).comment %></p>
+      </div>
+    </div>
+    <h4>Ratings:</h4>
+    <div class="row mt-1 mb-1">
+      <div class="col-9">
+        <h5>Users</h5>
+      </div>
+      <div class="col-3">
+        <h5>Ratings</h5>
+      </div>
+    </div>
+    <% if UserCommentRating.where(comment_id: params[:id]).count(:id) < 1 %>
+      <div class="row">
+        <div class="col">
+          <p class="text-center">No Ratings Available</p>
+        </div>
+      </div>
+    <% else %>
+      <% @comment_ratings.each do |cr| %>
+        <div class="row mt-1 mb-1">
+          <div class="col-9">
+            <figure>
+              <blockquote class="blockquote">
+                <p><%= User.find_by(id: cr.user_id).name %></p>
+              </blockquote>
+              <figcaption class="blockquote-footer">
+                <%= User.find_by(id: cr.user_id).email %>
+              </figcaption>
+            </figure>
+          </div>
+          <div class="col-3">
+            <p><%= UserCommentRating.find_by(comment_id: params[:id], user_id: cr.user_id).rate %></p>
+          </div>
+          <hr>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+</section>
