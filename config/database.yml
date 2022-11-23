@@ -5,6 +5,7 @@ default: &default
   username: root
   password:
   host: localhost
+  socket: ""
 
 development:
   <<: *default
