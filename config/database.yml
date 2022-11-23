@@ -5,7 +5,6 @@ default: &default
   username: root
   password:
   host: localhost
-  socket: "C:/xampp/mysql/mysql.sock"
 
 development:
   <<: *default
