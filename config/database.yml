@@ -15,7 +15,7 @@ test:
 
 production:
   <<: *default
-  database: RubyBlog_production
+  url: <%= ENV['DATABASE_URL'] %>
 
 # mysql
 #default: &default
