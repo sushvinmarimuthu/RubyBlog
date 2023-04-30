@@ -48,6 +48,7 @@ gem 'will_paginate-bootstrap4'
 gem 'devise'
 gem 'cancancan'
 gem 'jquery-rails'
+gem 'dotenv-rails'
 
 # Use Sass to process CSS
 # gem "sassc-rails"
