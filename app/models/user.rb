@@ -10,7 +10,7 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
-  after_create do
-    UserJob.perform_now(self)
-  end
+  # after_create do
+  #   UserJob.perform_now(self)
+  # end
 end
