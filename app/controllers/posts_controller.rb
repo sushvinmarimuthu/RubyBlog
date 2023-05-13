@@ -1,9 +1,9 @@
 class PostsController < ApplicationController
   load_and_authorize_resource except: :user_post_read_status
-  before_action :authenticate_user!
+  # before_action :authenticate_user!
   before_action :set_topic
   before_action :set_post, only: %i[edit update destroy]
-  skip_before_action :verify_authenticity_token
+  # skip_before_action :verify_authenticity_token
   skip_authorization_check only: :user_post_read_status
 
   # GET /posts or /posts.json

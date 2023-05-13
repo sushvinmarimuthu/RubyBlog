@@ -1,5 +1,5 @@
 class UserCommentRatingController < ApplicationController
-  before_action :authenticate_user!
+  # before_action :authenticate_user!
   def show
     @comment_ratings = UserCommentRating.where(comment_id: params[:id])
   end
